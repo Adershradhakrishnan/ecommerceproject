@@ -12,6 +12,7 @@ app.use(express.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS
 
 app.use(userRoutes);
+    //    app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 connect();
 
