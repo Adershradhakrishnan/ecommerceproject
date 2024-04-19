@@ -7,7 +7,7 @@ function Navbar() {
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     
-                    <div className="text-white text-xl font-bold">My App</div>
+                    {/* <div className="text-white text-xl font-bold">My App</div> */}
 
                     
                     <ul className="flex items-center space-x-4">
