@@ -14,6 +14,8 @@ app.use(cors()); // Enable CORS
 
 app.use(userRoutes);
          app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+         app.use('/getproduct',userRoutes);
+         app.use('/updateproduct',userRoutes);
 
 connect();
 

@@ -239,3 +239,56 @@ exports.getproducts =async function(req,res){
     
 }
 
+
+exports.productdetails=async function(req,res){
+    try {
+        const productId = req.params.productId;
+        const product = await products.findById(productId);
+        if (!product) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        
+        res.json(product);
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
+exports.Updateproduct = async function (req, res) {
+
+
+    const productId = req.params.productId;
+    const productData = req.body;
+
+
+
+    try {
+        const updateproduct = await products.findByIdAndUpdate(productId, productData, { new: true });
+
+        if (updateproduct) {
+            // Sending response with updated user
+            const response = {
+                statusCode: 200,
+                message: "User updated successfully",
+                data: updateproduct
+            };
+            res.status(200).send(response);
+        } else {
+            // Sending error response if user not found
+            const response = {
+                statusCode: 404,
+                message: "User not found"
+            };
+            res.status(404).send(response);
+        }
+    } catch (error) {
+        console.error("Error updating user:", error);
+        const response = {
+            statusCode: 500,
+            message: "Internal server error"
+        };
+        res.status(500).send(response);
+    }
+}
