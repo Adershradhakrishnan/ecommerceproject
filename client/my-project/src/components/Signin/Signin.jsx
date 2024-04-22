@@ -13,12 +13,17 @@ function Signin() {
     e.preventDefault();
 
     try {
+        
         const response = await axios.post('http://localhost:3100/signin', {
             email: email,
             password: password,
         });
+       
 
-        if (response.data && response.data.token) {
+
+
+        if (response.data.success) {
+            console.log("response is",response);
             const { token, role } = response.data;
             localStorage.setItem('token', token);
 
@@ -48,6 +53,7 @@ function Signin() {
 
     } catch (error) {
         console.error("Signin error:", error);
+        console.log("response is",error.response);
 
         if (error.response && error.response.status === 401) {
             Swal.fire({

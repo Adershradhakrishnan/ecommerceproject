@@ -5,7 +5,7 @@ import SellerPage from './components/Seller/Seller';
 import GetProduct from './components/Getuser/Getuser';
 import MyCarousel from './components/Buyer/Carousel/Carousal';
 import Navbar from './components/Buyer/Navbar/Navbar';
-import BuyerPage from './components/Buyer/Buyer';
+import Buyer from './components/Buyer/Buyer';
 
 import { BrowserRouter as Router,Route,Routes,Link } from 'react-router-dom';
 import './App.css'
@@ -24,7 +24,7 @@ function App() {
           <Route path='/getproducts' exact element={<GetProduct/>}/>
           <Route path='/carousel' exact element={<MyCarousel/>}/>
           <Route path='/navbar' exact element={<Navbar/>}/>
-          <Route path='/buyer' exact element={<BuyerPage/>}/>
+          <Route path='/' exact element={<Buyer/>}/>
           </Routes>
       </div>
      </Router>
