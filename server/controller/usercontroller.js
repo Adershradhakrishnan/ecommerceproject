@@ -95,11 +95,12 @@ exports.signin = async function (req, res) {
                         statusCode: 200,
                         data: {
                             token: access_token,
+                            role:user.role
 
                         },
                         message: "Login Successful",
                     });
-                    res.status(response.statusCode).send(response.message);
+                    res.status(response.statusCode).send(response);
                     return;
                 } else {
                     let response = error_function({
