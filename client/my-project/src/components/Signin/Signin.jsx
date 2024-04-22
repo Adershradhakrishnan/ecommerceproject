@@ -24,7 +24,7 @@ function Signin() {
 
         if (response.data.success) {
             console.log("response is",response);
-            const { token, role } = response.data;
+            const { token, role } = response.data.data;
             console.log("token",token);
             localStorage.setItem('token', token);
 
