@@ -3,7 +3,7 @@ import Signup from './components/Signup/Signup';
 import Signin from './components/Signin/Signin';
 import SellerPage from './components/Seller/Seller';
 import GetProduct from './components/Getuser/Getuser';
-
+import HomePage from './components/Home/Home';
 import Buyer from './components/Buyer/Buyer';
 import EditProduct from './components/Productdetails/Productdetails';
 
@@ -22,7 +22,7 @@ function App() {
           <Route path='/signin' exact element={<Signin/>}/>
           <Route path='/seller' exact element={<SellerPage/>}/>
           <Route path='/getproducts' exact element={<GetProduct/>}/>
-          
+          <Route path='/home' exact element={<HomePage/>}/>
           <Route path='/' exact element={<Buyer/>}/>
           <Route path='/getproduct/:productId' exact element={<EditProduct/>}/>
           </Routes>

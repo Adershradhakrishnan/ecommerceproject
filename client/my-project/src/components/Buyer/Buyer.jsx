@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar/Navbar';
 import MyCarousel from './Carousel/Carousal';
+import Footer from './Footer/Footer';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -73,6 +74,7 @@ function Buyer() {
                   </div>
               )}
           </div>
+          <Footer/>
       </div>
   );
 }
