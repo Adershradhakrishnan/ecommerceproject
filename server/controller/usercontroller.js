@@ -292,3 +292,9 @@ exports.Updateproduct = async function (req, res) {
         res.status(500).send(response);
     }
 }
+
+exports.cartproduct = async function (req,res){
+  
+    
+}
+
