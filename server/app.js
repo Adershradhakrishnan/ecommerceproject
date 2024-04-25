@@ -16,6 +16,7 @@ app.use(userRoutes);
          app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
          app.use('/getproduct',userRoutes);
          app.use('/updateproduct',userRoutes);
+         app.use('/deleteproduct',userRoutes);
 
 connect();
 

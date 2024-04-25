@@ -293,8 +293,109 @@ exports.Updateproduct = async function (req, res) {
     }
 }
 
-exports.cartproduct = async function (req,res){
-  
-    
+exports.deleteProduct = async function (req,res) {
+    const productId = req.params.productId;
+
+    try {
+        // Attempt to find and delete the product by its ID
+        const deletedProduct = await products.findByIdAndDelete(productId);
+
+        if (deletedProduct) {
+            // Sending response with deleted product information
+            const response = {
+                statusCode: 200,
+                message: "Product deleted successfully",
+                data: deletedProduct
+            };
+            res.status(200).send(response);
+        } else {
+            // Sending error response if product not found
+            const response = {
+                statusCode: 404,
+                message: "Product not found"
+            };
+            res.status(404).send(response);
+        }
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        const response = {
+            statusCode: 500,
+            message: "Internal server error"
+        };
+        res.status(500).send(response);
+    }
 }
+
+exports.cartproducts = async function (req, res) {
+    try {
+        const productId = req.params.productId;
+       
+        const product = await products.findById(productId);
+        if (!product) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+
+        res.json(product);
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
+exports.addToCart = async function(req, res) {
+    const { productId } = req.body;
+
+    try {
+        // Validate productId
+        if (!isValidObjectId(productId)) {
+            const response = {
+                statusCode: 400,
+                message: "Invalid product ID"
+            };
+            return res.status(400).send(response);
+        }
+
+       
+
+        // Fetch product from database
+        const product = await products.findById(productId);
+
+        if (!product) {
+            const response = {
+                statusCode: 404,
+                message: "Product not found"
+            };
+            return res.status(404).send(response);
+        }
+
+        // Assuming user is authenticated, fetch user ID from session or token
+        const userId = req.session.userId || req.user.id;
+
+        // Add product to user's cart
+        const updatedUser = await users.findByIdAndUpdate(
+            userId,
+            { $push: { cart: { product: productId } } },
+            { new: true }
+        );
+
+        const response = {
+            statusCode: 200,
+            message: "Product added to cart successfully",
+            data: updatedUser.cart
+        };
+        res.status(200).send(response);
+    } catch (error) {
+        console.error("Error adding product to cart:", error);
+        console.error(error.stack); // Log stack trace for debugging
+        const response = {
+            statusCode: 500,
+            message: "Internal server error"
+        };
+        res.status(500).send(response);
+    }
+};
+
+
+
 
