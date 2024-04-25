@@ -42,6 +42,17 @@ function EditProduct() {
         }
     };
 
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:3100/deleteproduct/${productId}`);
+            console.log('Product deleted successfully:', response.data);
+            // Redirect or show a success message
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            // Handle error deleting product
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProduct({
@@ -159,18 +170,34 @@ function EditProduct() {
                                 )}
                             </p>
                             {editMode && (
+                                <>
+                                    <button
+                                        onClick={handleSave}
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        onClick={() => setEditMode(false)}
+                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    >
+                                        Cancel
+                                    </button>
+                                </>
+                            )}
+                            {!editMode && (
                                 <button
-                                    onClick={handleSave}
-                                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
+                                    onClick={handleEdit}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
                                 >
-                                    Save
+                                    Edit
                                 </button>
                             )}
                             <button
-                                onClick={handleEdit}
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                onClick={handleDelete}
+                                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             >
-                                {editMode ? "Cancel" : "Edit"}
+                                Delete
                             </button>
                         </div>
                     </div>
