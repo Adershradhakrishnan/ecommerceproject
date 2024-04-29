@@ -17,6 +17,8 @@ app.use(userRoutes);
          app.use('/getproduct',userRoutes);
          app.use('/updateproduct',userRoutes);
          app.use('/deleteproduct',userRoutes);
+         app.use('/cartproducts',userRoutes);
+         app.use('addreview',userRoutes);
 
 connect();
 

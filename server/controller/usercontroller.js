@@ -6,7 +6,8 @@ const users = require('../db/users')
   const products = require('../db/product')
 const path = require('path');
 const fs = require('fs');
-
+const Cart = require('../db/cart')
+const mongoose = require('mongoose');
 
 exports.signup = async function (req, res) {
 
@@ -343,59 +344,67 @@ exports.cartproducts = async function (req, res) {
     }
 }
 
-exports.addToCart = async function(req, res) {
-    const { productId } = req.body;
+exports.reviews = async function (req, res) {
+    const productId = req.params.productId;
+    const { userName, rating, comment } = req.body;
 
     try {
-        // Validate productId
-        if (!isValidObjectId(productId)) {
-            const response = {
-                statusCode: 400,
-                message: "Invalid product ID"
-            };
-            return res.status(400).send(response);
-        }
-
-       
-
-        // Fetch product from database
+        // Find the product by productId
         const product = await products.findById(productId);
 
         if (!product) {
-            const response = {
-                statusCode: 404,
-                message: "Product not found"
-            };
-            return res.status(404).send(response);
+            return res.status(404).json({ error: 'Product not found' });
         }
 
-        // Assuming user is authenticated, fetch user ID from session or token
-        const userId = req.session.userId || req.user.id;
+        // Add the new review to the product's reviews array
+        product.reviews.push({ userName, rating, comment });
 
-        // Add product to user's cart
-        const updatedUser = await users.findByIdAndUpdate(
-            userId,
-            { $push: { cart: { product: productId } } },
-            { new: true }
-        );
+        // Save the updated product document
+        await product.save();
 
-        const response = {
-            statusCode: 200,
-            message: "Product added to cart successfully",
-            data: updatedUser.cart
-        };
-        res.status(200).send(response);
+        res.status(201).json({ message: 'Review added successfully' });
     } catch (error) {
-        console.error("Error adding product to cart:", error);
-        console.error(error.stack); // Log stack trace for debugging
-        const response = {
-            statusCode: 500,
-            message: "Internal server error"
-        };
-        res.status(500).send(response);
+        console.error('Error adding review:', error);
+        res.status(500).json({ error: 'Failed to add review' });
     }
-};
+}
+
+exports.addcart = async function (req, res) {
+
+    const { userId, productId } = req.body;
+    // console.log("userId",userId);
+    // console.log("productId",productId);
+    try {
+        // Check if the cart entry already exists for the given userId and productId
+        const existingCartEntry = await Cart.findOne({ userId: userId, productId: productId });
+        // console.log("existingCartEntry",existingCartEntry);
+        if (existingCartEntry) {
+            // If the cart entry already exists, return a message indicating that it's a duplicate
+            return res.status(400).send("This product is already in the user's cart.");
+        } else {
+            // Create a new cart entry if it doesn't already exist
+            const cartEntry = await Cart.create({
+                userId: userId,
+                productId: productId
+            });
+            // console.log("userId",userId);
+            // console.log("productId",productId);
+
+            if (cartEntry) {
+                // Return success response if cart entry was created successfully
+                return res.status(200).send("Cart item added successfully.");
+            } else {
+                // Return error response if cart entry creation failed
+                return res.status(400).send("Failed to add item to cart.");
+            }
+        }
+    } catch (error) {
+        // Handle any errors that occur during the process
+        console.error("Error adding item to cart:", error);
+        return res.status(500).send("Something went wrong.");
+    }
 
 
+}
 
 
