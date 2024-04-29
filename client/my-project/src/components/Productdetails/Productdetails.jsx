@@ -12,7 +12,7 @@ function EditProduct() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:3100/getproduct/${productId}`);
+                const response = await axios.get(`http://localhost:3100/getproduct/details/${productId}`);
                 setProduct(response.data); // Assuming response.data contains product details
                 setLoading(false);
             } catch (error) {

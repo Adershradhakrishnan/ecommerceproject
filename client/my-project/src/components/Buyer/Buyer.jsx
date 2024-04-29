@@ -27,6 +27,17 @@ function Buyer() {
       fetchProducts();
   }, []);
 
+  
+  const handleViewUser = (productId) => {
+    if (productId !== undefined) {
+        console.log("View button clicked for ID:", productId);
+        // You can perform further actions based on the product ID
+    } else {
+        console.error("ID is undefined");
+    }
+};
+
+
   return (
       <div className="bg-gray-100 min-h-screen">
           {/* Navbar */}
@@ -69,6 +80,11 @@ function Buyer() {
                                   
                                   <p className="text-gray-600 mb-2">Shipping Method: <span className="text-purple-600">{product.shippingMethod}</span></p>
                               </div>
+                              
+                              <Link to={`/cartproduct/${product._id}`}> <button
+                                    className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+                                    onClick={() => handleViewUser(product._id)}
+                                >View Details</button></Link>
                           </div>
                       ))}
                   </div>

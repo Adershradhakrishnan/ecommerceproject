@@ -6,6 +6,7 @@ import GetProduct from './components/Getuser/Getuser';
 import HomePage from './components/Home/Home';
 import Buyer from './components/Buyer/Buyer';
 import EditProduct from './components/Productdetails/Productdetails';
+import CartProduct from './components/Cart/Cart';
 
 import { BrowserRouter as Router,Route,Routes,Link } from 'react-router-dom';
 import './App.css'
@@ -25,6 +26,7 @@ function App() {
           <Route path='/home' exact element={<HomePage/>}/>
           <Route path='/' exact element={<Buyer/>}/>
           <Route path='/getproduct/:productId' exact element={<EditProduct/>}/>
+          <Route path='/cartproduct/:productId' exact element={<CartProduct/>}/>
           </Routes>
       </div>
      </Router>

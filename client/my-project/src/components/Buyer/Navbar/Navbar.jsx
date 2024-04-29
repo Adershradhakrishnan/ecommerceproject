@@ -21,6 +21,9 @@ function Navbar() {
                         <li>
                             <Link to="/signin" className="text-white hover:text-gray-300">Sign In</Link>
                         </li>
+                        <li>
+                            <Link to="/mycart" className="text-white hover:text-gray-300">My Cart</Link>
+                        </li>
                     </ul>
 
                     {/* Search Input */}
