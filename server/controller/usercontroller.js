@@ -407,4 +407,45 @@ exports.addcart = async function (req, res) {
 
 }
 
+exports.mycart = async function (req, res) {
+
+
+    const userId = req.query.userId; // Assuming userId is obtained from authenticated user
+    console.log(userId)
+    try {
+        // Find all cart items for the specified user
+        const cartItems = await Cart.find({ userId });
+        console.log(cartItems)
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(404).json({ message: 'Cart is empty' });
+        }
+
+        // Array to store populated cart items
+        const populatedCartItems = [];
+
+        // Loop through each cart item to populate user and product details
+        for (const cartItem of cartItems) {
+            const user = await users.findById(cartItem.userId); // Fetch user details
+            const product = await products.findById(cartItem.productId); // Fetch product details
+
+            if (user && product) {
+                // Construct a populated cart item object
+                const populatedCartItem = {
+                    userId: user,
+                    productId: product,
+                    quantity: cartItem.quantity
+                };
+                populatedCartItems.push(populatedCartItem);
+            }
+        }
+
+        // Return populated cart items in the response
+        return res.status(200).json(populatedCartItems);
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+    }
+}
+
+
 
