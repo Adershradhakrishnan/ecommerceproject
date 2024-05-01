@@ -449,3 +449,20 @@ exports.mycart = async function (req, res) {
 
 
 
+// Mock user data (replace with your actual user data storage)
+let loggedInUsers = [];
+
+
+exports.signout = (req, res) => {
+  const { token } = req.body;
+
+  // Find the user by token and remove it from the list of logged-in users
+  loggedInUsers = loggedInUsers.filter(user => user.token !== token);
+
+  res.json({ message: 'Successfully signed out' });
+};
+
+
+
+
+
