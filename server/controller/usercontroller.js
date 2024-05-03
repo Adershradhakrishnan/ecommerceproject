@@ -448,6 +448,41 @@ exports.mycart = async function (req, res) {
 }
 
 
+exports.purchaseCart = async function(req, res) {
+    try {
+        const { userId } = req.body;
+
+        // Check if the required fields are provided
+        if (!userId) {
+            return res.status(400).json({ message: 'Missing user ID' });
+        }
+
+        // Fetch the user's cart items
+        const cartItems = await Cart.find({ userId });
+
+        // Check if the user has any items in the cart
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(404).json({ message: 'Cart is empty' });
+        }
+
+        // Calculate the total price of the items in the cart
+        let totalPrice = 0;
+        for (const cartItem of cartItems) {
+            const product = await product.findById(cartItem.productId);
+            totalPrice += product.price * cartItem.quantity;
+        }
+
+        // Implement the purchase logic (e.g., deduct balance, update inventory, etc.)
+        // Here, we assume the purchase is successful, and we clear the user's cart
+        await Cart.deleteMany({ userId });
+
+        return res.status(200).json({ message: 'Purchase successful', totalPrice });
+    } catch (error) {
+        console.error('Error purchasing cart items:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
 
 // Mock user data (replace with your actual user data storage)
 let loggedInUsers = [];
@@ -461,6 +496,8 @@ exports.signout = (req, res) => {
 
   res.json({ message: 'Successfully signed out' });
 };
+
+
 
 
 
