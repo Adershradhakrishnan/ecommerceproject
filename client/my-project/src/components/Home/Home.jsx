@@ -24,12 +24,12 @@ function HomePage() {
                         <div className="bg-white rounded-lg shadow-lg p-4">
                             <h2 className="text-xl font-semibold mb-2">Featured Clothes</h2>
                             {/* Display featured clothes */}
-                            <Link to="/getproducts" className="text-blue-500 hover:underline">Explore Clothes</Link>
+                            <Link to="/" className="text-blue-500 hover:underline">Explore Clothes</Link>
                         </div>
                         <div className="bg-white rounded-lg shadow-lg p-4">
                             <h2 className="text-xl font-semibold mb-2">Featured Shoes</h2>
                             {/* Display featured shoes */}
-                            <Link to="/getproducts" className="text-blue-500 hover:underline">Explore Shoes</Link>
+                            <Link to="/" className="text-blue-500 hover:underline">Explore Shoes</Link>
                         </div>
                         {/* Add more featured categories */}
                     </div>
