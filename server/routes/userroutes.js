@@ -15,5 +15,6 @@ router.post('/signin',Usercontroller.signin);
  router.post('/:productId',Usercontroller.reviews);
  router.post('/cart/add',Usercontroller.addcart);
  router.get('/mycart',Usercontroller.mycart);
+ router.post('/orders',Usercontroller.myOrders);
  router.post('/signout',Usercontroller.signout);
 module.exports=router;

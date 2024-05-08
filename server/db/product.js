@@ -7,7 +7,14 @@ const product =new mongoose.Schema({
     imageFile:"string",
     shippingMethod:"string",
     sellerName:"string",
-    contactEmail:"string"
+    contactEmail:"string",
+
+    reviews:[{
+        userName: String,
+        rating:Number,
+        comment:String,
+        date:{type:Date,default:Date.now}
+    }]
 })
 
 module.exports=mongoose.model("product",product);

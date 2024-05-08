@@ -346,8 +346,9 @@ exports.cartproducts = async function (req, res) {
 
 exports.reviews = async function (req, res) {
     const productId = req.params.productId;
+    
     const { userName, rating, comment } = req.body;
-
+    console.log(req.body);
     try {
         // Find the product by productId
         const product = await products.findById(productId);
@@ -443,6 +444,25 @@ exports.mycart = async function (req, res) {
         return res.status(200).json(populatedCartItems);
     } catch (error) {
         console.error('Error fetching cart items:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+    }
+}
+
+exports.myOrders = async function (req, res) {
+    const userId = req.query.userId; // Assuming userId is obtained from authenticated user
+    console.log(userId)
+    try {
+        // Find all orders for the specified user
+        const orders = await Order.find({ userId });
+        console.log(orders);
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ message: 'No orders found' });
+        }
+
+        // Return orders in the response
+        return res.status(200).json(orders);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
         return res.status(500).json({ message: 'Something went wrong' });
     }
 }
