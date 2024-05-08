@@ -42,11 +42,13 @@ function CartProduct() {
 
     const handleSubmitReview = async (e) => {
         e.preventDefault();
+        console.log("handlesubmitreview:",handleSubmitReview);
 
         try {
             const response = await axios.post(`http://localhost:3100/addreview/${productId}`, reviewData);
             console.log("Review submitted successfully:", response.data);
             setReviewSubmitted(true);
+            
             setShowReviewForm(false);
         } catch (error) {
             console.error("Error submitting review:", error);
