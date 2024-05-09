@@ -7,7 +7,9 @@ import HomePage from './components/Home/Home';
 import Buyer from './components/Buyer/Buyer';
 import EditProduct from './components/Productdetails/Productdetails';
 import CartProduct from './components/Cart/Cart';
-import Mycart from './components/Mycart/Mycart';
+// import Mycart from './components/Mycart/Mycart';
+import MyCartData from './components/Mycartdata/Mycartdata';
+import Order from './components/Order/Order';
 import Signout from './components/Signout/Signout';
 
 import { BrowserRouter as Router,Route,Routes,Link } from 'react-router-dom';
@@ -29,7 +31,9 @@ function App() {
           <Route path='/' exact element={<Buyer/>}/>
           <Route path='/getproduct/:productId' exact element={<EditProduct/>}/>
           <Route path='/cartproduct/:productId' exact element={<CartProduct/>}/>
-          <Route path='/mycart' exact element={<Mycart/>}/>
+          {/* <Route path='/mycart' exact element={<Mycart/>}/> */}
+          <Route path='/mycart' exact element={<MyCartData/>}/>
+          <Route path='/myorder' exact element={<Order/>}/>
           <Route path='/signout' exact element={<Signout/>}/>
           </Routes>
       </div>
