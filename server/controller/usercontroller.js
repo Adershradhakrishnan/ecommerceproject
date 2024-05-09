@@ -7,6 +7,7 @@ const users = require('../db/users')
 const path = require('path');
 const fs = require('fs');
 const Cart = require('../db/cart')
+const order = require('../db/order')
 const mongoose = require('mongoose');
 
 exports.signup = async function (req, res) {
@@ -448,25 +449,55 @@ exports.mycart = async function (req, res) {
     }
 }
 
-exports.myOrders = async function (req, res) {
-    const userId = req.query.userId; // Assuming userId is obtained from authenticated user
-    console.log(userId)
-    try {
-        // Find all orders for the specified user
-        const orders = await Order.find({ userId });
-        console.log(orders);
-        if (!orders || orders.length === 0) {
-            return res.status(404).json({ message: 'No orders found' });
-        }
 
-        // Return orders in the response
-        return res.status(200).json(orders);
+exports.addorder = async function (req, res) {
+    try {
+        const { userId, productIds } = req.body;
+
+        // Create new order
+        await order.create({ userId, productId: productIds });
+
+        res.status(200).json({ message: 'Order placed successfully' });
     } catch (error) {
-        console.error('Error fetching orders:', error);
-        return res.status(500).json({ message: 'Something went wrong' });
+        console.error('Error placing order:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
+
+exports.myorder = async function (req, res) {
+    const userId = req.query.userId;
+    try {
+        // Find all order items for the specified user
+        const orderItems = await order.find({ userId });
+        if (!orderItems || orderItems.length === 0) {
+            return res.status(404).json({ message: 'No orders found' });
+        }
+
+        // Array to store populated order items
+        const populatedOrderItems = [];
+
+        // Loop through each order item to populate user and product details
+        for (const orderItem of orderItems) {
+            const user = await users.findById(orderItem.userId); // Fetch user details
+            const product = await products.find({ _id: { $in: orderItem.productId } }); // Fetch product details
+
+            if (user && product) {
+                // Construct a populated order item object
+                const populatedOrderItem = {
+                    userId: user,
+                    products: product,
+                };
+                populatedOrderItems.push(populatedOrderItem);
+            }
+        }
+        // Return populated order items in the response
+        return res.status(200).json(populatedOrderItems);
+    } catch (error) {
+        console.error('Error fetching order items:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+    }
+}
 
 exports.purchaseCart = async function(req, res) {
     try {
