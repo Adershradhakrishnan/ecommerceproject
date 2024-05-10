@@ -33,7 +33,7 @@ function App() {
           <Route path='/cartproduct/:productId' exact element={<CartProduct/>}/>
           {/* <Route path='/mycart' exact element={<Mycart/>}/> */}
           <Route path='/mycart' exact element={<MyCartData/>}/>
-          <Route path='/myorder' exact element={<Order/>}/>
+           <Route path='/myorder' exact element={<Order/>}/> 
           <Route path='/signout' exact element={<Signout/>}/>
           </Routes>
       </div>

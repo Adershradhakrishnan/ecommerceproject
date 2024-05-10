@@ -56,6 +56,15 @@ function MyCartData() {
     }
   };
 
+  const handleRemoveItem = (productId) => {
+    // Filter out the item with the given productId from the cartItems array
+    const updatedCartItems = cartItems.filter(item => item.productId._id !== productId);
+  
+    // Update the state to reflect the removal of the item
+    setCartItems(updatedCartItems);
+  };
+  
+
   // Function to handle purchase button click
   const handlePurchase = async () => {
     try {
@@ -80,9 +89,9 @@ function MyCartData() {
       });
 
     //   // Send a request to delete the selected products from the cart
-    //   await axios.delete('http://localhost:3100/mycart/delete', {
-    //     data: { userId: userId, productIds: selectedProducts }
-    //   });
+       await axios.delete('http://localhost:3100/mycart/delete', {
+        data: { userId: userId, productIds: selectedProducts }
+      });
 
       // Show SweetAlert notification after purchase
       Swal.fire({
@@ -117,40 +126,54 @@ function MyCartData() {
     }
     setTotalPrice(totalPrice);
   }, [selectedProducts, cartItems]);
-
   return (
-    <div className="container">
-      <h1 className="my-4 text-3xl font-bold text-center text-indigo-700">My Cart</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold text-center text-indigo-700 mb-8">My Cart</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {cartItems.map((cartItem) => (
           <div key={cartItem._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
             <img
               src={`http://localhost:3100${cartItem.productId.imageFile}`}
-              className="w-full h-64 object-contain"
+              className="w-full h-64 object-cover rounded-t-lg"
               alt={cartItem.productId.productName}
             />
             <div className="p-4">
-              <h3 className="text-xl font-bold text-indigo-700">{cartItem.productId.productName}</h3>
-              <p className="text-lg text-gray-800 my-2">
-                <strong>Price:</strong> <span className="text-green-600">${parseFloat(cartItem.productId.price).toFixed(2)}</span>
+              <h3 className="text-xl font-semibold text-indigo-700 mb-2">{cartItem.productId.productName}</h3>
+              <p className="text-lg text-gray-800 mb-4">
+                <strong className="text-indigo-700">Price:</strong>{" "}
+                <span className="text-green-600">${parseFloat(cartItem.productId.price).toFixed(2)}</span>
               </p>
-              <p className="text-lg text-gray-800 my-2">
-                <input
-                  type="checkbox"
-                  value={cartItem.productId._id}
-                  onChange={(e) => handleCheckboxChange(e, cartItem.productId._id)}
-                /> Select
-              </p>
+              <div className="flex items-center justify-between mb-4">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox text-indigo-600 h-5 w-5"
+                    value={cartItem.productId._id}
+                    onChange={(e) => handleCheckboxChange(e, cartItem.productId._id)}
+                  />
+                  <span className="text-gray-800">Select</span>
+                </label>
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-4 rounded"
+                  onClick={() => handleRemoveItem(cartItem.productId._id)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
       <div className="text-center mt-8">
-        <h2 className="text-2xl font-bold text-indigo-700">Total Price: ${totalPrice.toFixed(2)}</h2>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={handlePurchase}>Purchase</button>
-      </div>
+  <h2 className="text-2xl font-bold text-purple-800 mb-4">Total Price: ${totalPrice.toFixed(2)}</h2>
+  <button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+    Purchase Now
+  </button>
+</div>
+
     </div>
   );
+  
 }
 
 export default MyCartData;
