@@ -16,6 +16,7 @@ router.post('/signin',Usercontroller.signin);
  router.post('/cart/add',Usercontroller.addcart);
  router.get('/mycart',Usercontroller.mycart);
  router.post('/order/add',Usercontroller.addorder);
+ router.delete('/mycart/delete',Usercontroller.removefromcart);
  router.get('/order/item',Usercontroller.myorder);
  router.post('/signout',Usercontroller.signout);
 module.exports=router;

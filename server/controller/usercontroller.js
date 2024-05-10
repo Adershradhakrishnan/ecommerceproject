@@ -465,6 +465,22 @@ exports.addorder = async function (req, res) {
 }
 
 
+exports.removefromcart = async function (req, res) {
+    const { userId, productIds } = req.body;
+
+    try {
+        // Assuming userId is used to identify the user's cart
+        // Delete cart items with the provided productIds
+        await Cart.deleteMany({ userId: userId, productId: { $in: productIds } });
+
+        res.status(200).json({ message: 'Selected products deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting selected products:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
 exports.myorder = async function (req, res) {
     const userId = req.query.userId;
     try {
@@ -547,6 +563,8 @@ exports.signout = (req, res) => {
 
   res.json({ message: 'Successfully signed out' });
 };
+
+
 
 
 
