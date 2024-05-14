@@ -56,13 +56,13 @@ function MyCartData() {
     }
   };
 
-  const handleRemoveItem = (productId) => {
-    // Filter out the item with the given productId from the cartItems array
+   const handleRemoveItem = (productId) => {
+  //   // Filter out the item with the given productId from the cartItems array
     const updatedCartItems = cartItems.filter(item => item.productId._id !== productId);
   
-    // Update the state to reflect the removal of the item
+  //   // Update the state to reflect the removal of the item
     setCartItems(updatedCartItems);
-  };
+   };
   
 
   // Function to handle purchase button click
@@ -97,7 +97,7 @@ function MyCartData() {
       Swal.fire({
         icon: 'success',
         title: 'Purchase Successful',
-        text: 'Your item has been shipped and will be delivered within 2 to 3 working days.',
+        text: 'Your item has been shipped and will be delivered within few days.',
       }).then((result) => {
         // Check if the alert was confirmed
         if (result.isConfirmed) {
@@ -153,23 +153,21 @@ function MyCartData() {
                   />
                   <span className="text-gray-800">Select</span>
                 </label>
-                <button
+                 <button
                   className="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-4 rounded"
                   onClick={() => handleRemoveItem(cartItem.productId._id)}
                 >
                   Remove
-                </button>
+                </button> 
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="text-center mt-8">
-  <h2 className="text-2xl font-bold text-purple-800 mb-4">Total Price: ${totalPrice.toFixed(2)}</h2>
-  <button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
-    Purchase Now
-  </button>
-</div>
+        <h2 className="text-2xl font-bold text-indigo-700">Total Price: ${totalPrice.toFixed(2)}</h2>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={handlePurchase}>Purchase Now</button>
+      </div>
 
     </div>
   );

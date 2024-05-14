@@ -32,6 +32,13 @@ const SellerPage = () => {
         e.preventDefault();
 
         try {
+            const token = localStorage.getItem('token');
+            const payloadBase64 = token.split('.')[1];
+            const decodedPayload = atob(payloadBase64);
+            const decodedToken = JSON.parse(decodedPayload);
+            const userId = decodedToken.user_id;
+            console.log(userId);
+            
             const response = await axios.post('http://localhost:3100/seller', {
                 productName,
                 price,
@@ -39,7 +46,8 @@ const SellerPage = () => {
                 imageBase64,
                 shippingMethod,
                 sellerName,
-                contactEmail
+                contactEmail,
+                userId
             });
 
             if (response.data) {

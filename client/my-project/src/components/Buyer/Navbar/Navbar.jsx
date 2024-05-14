@@ -7,15 +7,17 @@ function Navbar() {
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     
-                    {/* <div className="text-white text-xl font-bold">My App</div> */}
-
+                    {/* Logo */}
+                     <div className="text-white text-xl font-bold">Mern Store</div> 
+    
                     
+                    {/* Navigation Links */}
                     <ul className="flex items-center space-x-4">
                         <li>
                             <Link to="/home" className="text-white hover:text-gray-300">Home</Link>
                         </li>
                         <li>
-                            <Link to="/" className="text-white hover:text-gray-300">Contact Us</Link>
+                            <Link to="/contactus" className="text-white hover:text-gray-300">Contact Us</Link>
                         </li>
                        
                         <li>
@@ -31,12 +33,12 @@ function Navbar() {
                             <Link to="/signout" className="text-white hover:text-gray-300">SignOut</Link>
                         </li>
                     </ul>
-
+    
                     {/* Search Input */}
                     <input
                         type="search"
                         placeholder="Search for Products"
-                        className="bg-white text-gray-800 px-3 py-2 rounded-lg focus:outline-none"
+                        className="bg-white text-gray-800 px-3 py-2 rounded-lg focus:outline-none hidden md:block"
                         style={{ maxWidth: "250px" }} 
                     />
                 </div>

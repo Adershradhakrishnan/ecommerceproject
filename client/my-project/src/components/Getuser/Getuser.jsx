@@ -21,7 +21,19 @@ function GetProduct() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3100/getproduct');
+                const token = localStorage.getItem('token');
+                const payloadBase64 = token.split('.')[1];
+                const decodedPayload = atob(payloadBase64);
+                const decodedToken = JSON.parse(decodedPayload);
+                const userId = decodedToken.user_id;
+                console.log(userId);
+
+                const response = await axios.get('http://localhost:3100/getproduct',{
+                    params: {
+                        userId: userId
+                    }
+                });
+                
                 setProducts(response.data.data); // Assuming response.data.data contains products array
                 setLoading(false);
             } catch (error) {

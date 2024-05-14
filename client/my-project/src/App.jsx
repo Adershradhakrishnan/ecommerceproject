@@ -4,6 +4,7 @@ import Signin from './components/Signin/Signin';
 import SellerPage from './components/Seller/Seller';
 import GetProduct from './components/Getuser/Getuser';
 import HomePage from './components/Home/Home';
+import Contact from './components/Contact/Contact';
 import Buyer from './components/Buyer/Buyer';
 import EditProduct from './components/Productdetails/Productdetails';
 import CartProduct from './components/Cart/Cart';
@@ -28,6 +29,7 @@ function App() {
           <Route path='/seller' exact element={<SellerPage/>}/>
           <Route path='/getproducts' exact element={<GetProduct/>}/>
           <Route path='/home' exact element={<HomePage/>}/>
+          <Route path='/contactus' exact element={<Contact/>}/>
           <Route path='/' exact element={<Buyer/>}/>
           <Route path='/getproduct/:productId' exact element={<EditProduct/>}/>
           <Route path='/cartproduct/:productId' exact element={<CartProduct/>}/>
