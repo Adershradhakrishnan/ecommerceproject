@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const product =new mongoose.Schema({
     productName:"string",
+    userId:"string",
     price:"string",
     tags:"string",
     imageFile:"string",

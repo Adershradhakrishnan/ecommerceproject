@@ -124,7 +124,7 @@ exports.signin = async function (req, res) {
 }
 
 exports.seller = async function (req, res) {
-    const { productName, price, tags, imageBase64, shippingMethod, sellerName, contactEmail } = req.body;
+    const { productName, price, tags, imageBase64, shippingMethod, sellerName, contactEmail,userId } = req.body;
 
     console.log(req.body)
     const Image = imageBase64.split(';base64,').pop();
@@ -153,7 +153,8 @@ exports.seller = async function (req, res) {
         imageFile: relativePath,
         shippingMethod,
         sellerName,
-        contactEmail
+        contactEmail,
+        userId
     })
 
     if (new_product) {
@@ -174,10 +175,10 @@ exports.seller = async function (req, res) {
 
     
 exports.getuser = async function (req, res) {
-
+    const userId = req.params.userId;
     try {
         // Fetch all products from the database
-        const allProducts = await products.find();
+        const allProducts = await products.find(userId);
 
         if (allProducts && allProducts.length > 0) {
             // Sending success response with fetched products
@@ -207,11 +208,11 @@ exports.getuser = async function (req, res) {
 }
 
 exports.getproducts =async function(req,res){
-
+    const userId = req.query.userId;
 
     try {
         // Fetch all products from the database
-        const allProducts = await products.find();
+        const allProducts = await products.find({userId:userId});
 
         if (allProducts && allProducts.length > 0) {
             // Sending success response with fetched products
