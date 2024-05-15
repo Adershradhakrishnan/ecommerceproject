@@ -102,73 +102,73 @@ function CartProduct() {
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen py-8">
-            <div className="container mx-auto px-4">
-                <h1 className="text-3xl font-bold mb-8 text-center text-indigo-700">Product Details</h1>
+        <div className="bg-white min-h-screen py-8">
+            <div className="container mx-auto px-6">
+                <h1 className="text-4xl font-bold mb-12 text-center text-blue-600">Product Details</h1>
                 {product && (
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div className="bg-gray-200 h-64 flex items-center justify-center">
+                    <div className="bg-blue-50 rounded-lg shadow-xl overflow-hidden">
+                        <div className="bg-blue-200 h-72 flex items-center justify-center">
                             <img
                                 src={`http://localhost:3100${product.imageFile}`}
                                 alt={product.productName}
                                 className="object-cover h-48"
                             />
                         </div>
-                        <div className="p-6">
-                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">{product.productName}</h2>
-                            <p className="text-lg text-gray-700 mb-4">Price: ${product.price}</p>
-                            <p className="text-lg text-gray-700 mb-4">Tags: {product.tags}</p>
-                            <p className="text-lg text-gray-700 mb-4">Shipping Method: {product.shippingMethod}</p>
-                            <p className="text-lg text-gray-700 mb-4">Seller Name: {product.sellerName}</p>
-                            <p className="text-lg text-gray-700 mb-8">Contact Email: {product.contactEmail}</p>
-
-                            <div className="mb-8">
-                                <h3 className="text-xl font-semibold mb-4 text-indigo-700">Reviews</h3>
+                        <div className="p-8">
+                            <h2 className="text-3xl font-semibold text-gray-900 mb-6">{product.productName}</h2>
+                            <p className="text-xl text-gray-800 mb-6">Price: ${product.price}</p>
+                            <p className="text-xl text-gray-800 mb-6">Tags: {product.tags}</p>
+                            <p className="text-xl text-gray-800 mb-6">Shipping Method: {product.shippingMethod}</p>
+                            <p className="text-xl text-gray-800 mb-6">Seller Name: {product.sellerName}</p>
+                            <p className="text-xl text-gray-800 mb-8">Contact Email: {product.contactEmail}</p>
+    
+                            <div className="mb-12">
+                                <h3 className="text-2xl font-semibold mb-6 text-blue-600">Reviews</h3>
                                 {product.reviews && product.reviews.length > 0 ? (
                                     product.reviews.map((review, index) => (
-                                        <div key={index} className="bg-purple-100 rounded-lg shadow-md p-4 mb-4">
-                                            <p className="text-gray-800 text-lg font-semibold mb-2">{review.userName}</p>
-                                            <p className="text-gray-600">Rating: {review.rating}/5</p>
-                                            <p className="text-gray-700">{review.comment}</p>
+                                        <div key={index} className="bg-yellow-100 rounded-lg shadow-md p-6 mb-6">
+                                            <p className="text-gray-900 text-lg font-semibold mb-3">{review.userName}</p>
+                                            <p className="text-gray-700 mb-2">Rating: {review.rating}/5</p>
+                                            <p className="text-gray-800">{review.comment}</p>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-700">No reviews yet.</p>
+                                    <p className="text-gray-800">No reviews yet.</p>
                                 )}
                             </div>
-
+    
                             {isAddedToCart ? (
                                 <button
-                                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:shadow-outline mr-4"
+                                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline mr-4"
                                 >
                                     Go to Cart
                                 </button>
                             ) : (
                                 <button
                                     onClick={addToCart}
-                                    className="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:shadow-outline mr-4"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline mr-4"
                                 >
                                     Add to Cart
                                 </button>
                             )}
-
+    
                             <button
                                 onClick={() => setShowReviewForm(!showReviewForm)}
-                                className="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:shadow-outline"
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline"
                             >
                                 {showReviewForm ? "Hide Review Form" : "Add Review"}
                             </button>
                         </div>
-
+    
                         {showReviewForm && (
-                            <form onSubmit={handleSubmitReview} className="p-6 bg-gray-200 rounded-b-lg">
+                            <form onSubmit={handleSubmitReview} className="p-8 bg-blue-100 rounded-b-lg">
                                 <input
                                     type="text"
                                     placeholder="Your Name"
                                     name="userName"
                                     value={reviewData.userName}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded mb-4 focus:outline-none focus:border-indigo-700"
+                                    className="w-full px-5 py-3 border border-gray-400 rounded-lg mb-6 focus:outline-none focus:border-blue-600"
                                     required
                                 />
                                 <input
@@ -179,7 +179,7 @@ function CartProduct() {
                                     max="5"
                                     value={reviewData.rating}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded mb-4 focus:outline-none focus:border-indigo-700"
+                                    className="w-full px-5 py-3 border border-gray-400 rounded-lg mb-6 focus:outline-none focus:border-blue-600"
                                     required
                                 />
                                 <textarea
@@ -187,12 +187,12 @@ function CartProduct() {
                                     name="comment"
                                     value={reviewData.comment}
                                     onChange={handleInputChange}
-                                    className="w-full h-32 px-4 py-3 border border-gray-300 rounded mb-4 focus:outline-none focus:border-indigo-700 resize-none"
+                                    className="w-full h-40 px-5 py-3 border border-gray-400 rounded-lg mb-6 focus:outline-none focus:border-blue-600 resize-none"
                                     required
                                 ></textarea>
                                 <button
                                     type="submit"
-                                    className="bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:shadow-outline"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline"
                                 >
                                     Submit Review
                                 </button>
@@ -203,6 +203,7 @@ function CartProduct() {
             </div>
         </div>
     );
+    
 }
 
 export default CartProduct;

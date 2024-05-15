@@ -127,50 +127,52 @@ function MyCartData() {
     setTotalPrice(totalPrice);
   }, [selectedProducts, cartItems]);
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold text-center text-indigo-700 mb-8">My Cart</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {cartItems.map((cartItem) => (
-          <div key={cartItem._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img
-              src={`http://localhost:3100${cartItem.productId.imageFile}`}
-              className="w-full h-64 object-cover rounded-t-lg"
-              alt={cartItem.productId.productName}
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-indigo-700 mb-2">{cartItem.productId.productName}</h3>
-              <p className="text-lg text-gray-800 mb-4">
-                <strong className="text-indigo-700">Price:</strong>{" "}
-                <span className="text-green-600">${parseFloat(cartItem.productId.price).toFixed(2)}</span>
-              </p>
-              <div className="flex items-center justify-between mb-4">
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox text-indigo-600 h-5 w-5"
-                    value={cartItem.productId._id}
-                    onChange={(e) => handleCheckboxChange(e, cartItem.productId._id)}
-                  />
-                  <span className="text-gray-800">Select</span>
-                </label>
-                 <button
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-4 rounded"
-                  onClick={() => handleRemoveItem(cartItem.productId._id)}
-                >
-                  Remove
-                </button> 
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="text-center mt-8">
-        <h2 className="text-2xl font-bold text-indigo-700">Total Price: ${totalPrice.toFixed(2)}</h2>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={handlePurchase}>Purchase Now</button>
-      </div>
-
+    <div className="container mx-auto p-6">
+        <h1 className="text-4xl font-bold text-center text-teal-600 mb-12">My Cart</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cartItems.map((cartItem) => (
+                <div key={cartItem._id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 ease-in-out overflow-hidden">
+                    <img
+                        src={`http://localhost:3100${cartItem.productId.imageFile}`}
+                        className="w-full h-48 object-cover"
+                        alt={cartItem.productId.productName}
+                    />
+                    <div className="p-5">
+                        <h3 className="text-2xl font-semibold text-teal-600 mb-3">{cartItem.productId.productName}</h3>
+                        <p className="text-lg text-gray-700 mb-4">
+                            <strong className="text-teal-600">Price:</strong>{" "}
+                            <span className="text-green-500">${parseFloat(cartItem.productId.price).toFixed(2)}</span>
+                        </p>
+                        <div className="flex items-center justify-between mb-4">
+                            <label className="flex items-center space-x-2 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="form-checkbox text-teal-600 h-5 w-5"
+                                    value={cartItem.productId._id}
+                                    onChange={(e) => handleCheckboxChange(e, cartItem.productId._id)}
+                                />
+                                <span className="text-gray-700">Select</span>
+                            </label>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-lg"
+                                onClick={() => handleRemoveItem(cartItem.productId._id)}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+        <div className="text-center mt-10">
+            <h2 className="text-3xl font-bold text-teal-600 mb-6">Total Price: ${totalPrice.toFixed(2)}</h2>
+            <button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out" onClick={handlePurchase}>
+                Purchase Now
+            </button>
+        </div>
     </div>
-  );
+);
+
   
 }
 
