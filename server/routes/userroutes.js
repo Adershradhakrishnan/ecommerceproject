@@ -18,5 +18,8 @@ router.post('/signin',Usercontroller.signin);
  router.post('/order/add',Usercontroller.addorder);
  router.delete('/mycart/delete',Usercontroller.removefromcart);
  router.get('/order/item',Usercontroller.myorder);
+ router.post('/wishlist/add',Usercontroller.wishlist);
+ router.get('/wishlist/item',Usercontroller.getwishlist);
+ router.delete('/wishlist/remove',Usercontroller.removeFromWishlist);
  router.post('/signout',Usercontroller.signout);
 module.exports=router;
