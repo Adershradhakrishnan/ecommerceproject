@@ -547,11 +547,11 @@ exports.wishlist = async function (req, res) {
 
 exports.getwishlist = async function (req, res) {
 
-    const userId = req.params.userId;
+    const userId = req.query.userId;
     console.log("userId", userId)
 
     try {
-        const wishlistItems = await wishlist.find( userId ); // assuming you have a 'user' field in your Wishlist model
+        const wishlistItems = await wishlist.find( {userId} ); // assuming you have a 'user' field in your Wishlist model
         console.log(wishlistItems);
          if (!wishlistItems || wishlistItems.length === 0) {
             return res.status(404).json({ message: 'no item  found on wishlist' });
