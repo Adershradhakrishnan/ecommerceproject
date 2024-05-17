@@ -12,6 +12,7 @@ import CartProduct from './components/Cart/Cart';
 import MyCartData from './components/Mycartdata/Mycartdata';
 import Order from './components/Order/Order';
 import Signout from './components/Signout/Signout';
+import Mywishlist from './components/Mywishlist/Mywishlist';
 
 import { BrowserRouter as Router,Route,Routes,Link } from 'react-router-dom';
 import './App.css'
@@ -37,6 +38,7 @@ function App() {
           <Route path='/mycart' exact element={<MyCartData/>}/>
            <Route path='/myorder' exact element={<Order/>}/> 
           <Route path='/signout' exact element={<Signout/>}/>
+          <Route path='/mywishlist' exact element={<Mywishlist/>}/>
           </Routes>
       </div>
      </Router>
