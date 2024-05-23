@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({setKeyword,onCategorySelect}) {
+    const [showDropdown,setShowDropdown] = useState(false);
+
+    const handleSearch= (e) =>{
+        const searchKeyword = e.target.value;
+        setKeyword(searchKeyword);
+    };
+
+    const handleFilterClick= (category)=>{
+        setShowDropdown(false);
+        onCategorySelect(category);
+    }
+
+
     return (
         <nav className="bg-gradient-to-r from-blue-500 to-orange-500 py-4">
             <div className="container mx-auto px-4">
