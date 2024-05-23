@@ -611,6 +611,80 @@ exports.removeFromWishlist = async function (req, res) {
     }
 }
 
+exports.getsearch = async function(req,res){
+    const keyword = req.query.keyword;
+    try{
+        if (keyword) {
+            filter={
+                $or:[
+                    {"productName":{$regex:keyword,$options:"i"}}
+                ]
+            };
+        }
+
+        const userProducts= await products.find(filter);
+        if(userProducts) {
+            const response = {
+                statusCode:200,
+                message:"success",
+                data:userProducts
+            };
+            res.status(200).json(response);
+        }else{
+            const response={
+                statusCode:404,
+                message:"No products found for the user"
+            };
+            res.status(404).send(response);
+        }
+    }catch(error) {
+        console.error('Error fetching user products',error);
+        const response ={
+            statusCode:500,
+            message:"Internal server error"
+        };
+        res.status(500).send(response);
+    }
+}
+
+exports.getfilter = async function(re,res){
+    const {category} = req.query;
+    console.log(category);
+
+    try{
+        let filter={};
+        if (category){
+            filter = {categories: {$regex: category,$options:"i"}};
+        }
+        console.log(filter)
+        const userProducts = await products.find(filter);
+        console.log(userProducts);
+        if(userProducts.length > 0) {
+            const response = {
+                statusCode:200,
+                message:"success",
+                data:userProducts
+            };
+            res.status(200).json(response);
+        }else{
+            const response ={
+                statusCode:404,
+                message:"No products found for the user"
+            };
+            res.status(404).json(response);
+        }
+
+    }catch(error){
+        console.error('Error fetching user products:',error);
+        const response={
+            statusCode:500,
+            message:"Internal server error"
+        };
+        res.status(500).json(response);
+
+    }
+}
+
 exports.purchaseCart = async function(req, res) {
     try {
         const { userId } = req.body;
