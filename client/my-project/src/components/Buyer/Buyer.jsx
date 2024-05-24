@@ -13,6 +13,7 @@ function Buyer() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [favorites, setFavorites] = useState([]);
+    const [keyword, setKeyword] = useState("");
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -27,8 +28,32 @@ function Buyer() {
             }
         };
 
+
+    const fetchFilteredProducts= async()=>{
+        try{
+            const response= await axios.get('http://localhost:3100/filterproducts',{
+                params:{ keyword:keyword}
+            });
+
+            setProducts(response.data.data);
+            setLoading(false);
+
+        }catch (error){
+            console.error('Error fetching products:',error);
+            setError('Error fetching products.try again.');
+            setLoading(false);
+
+        }
+    };
+
+    if (keyword){
+        setLoading(true);
+        setError(null);
+        fetchFilteredProducts();
+    }else{
         fetchProducts();
-    }, []);
+    }
+}, [keyword]);
 
     const handleViewUser = (productId) => {
         if (productId !== undefined) {
@@ -68,14 +93,34 @@ function Buyer() {
         }
     };
 
+    const handleCategorySelect = async (category)=>{
+        setLoading(true);
+        setError(null);
+
+        try{
+            const encodedCategory = encodeURIComponent(category);
+            const response= await axios.get('http://localhost:3100/filter/categories',{
+                params: {category:encodedCategory}
+            });
+            setProducts(response.data.data);
+            setLoading(false);
+
+        }catch(error){
+            console.error('Error fetching filtered products',error);
+            setError('Error fetching products.try again');
+            setLoading(false);
+
+        }
+    };
+
     return (
         <div className="min-h-screen">
             {/* Navbar */}
-            <Navbar />
+            <Navbar  setKeyword={setKeyword} onCategorySelect={handleCategorySelect}/>
 
             {/* Image Carousel with Margin */}
             <div className="container mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-8 text-white">Featured Products</h1>
+                <h1 className="text-3xl font-bold mb-8 text-black"> Featured Products</h1>
 
                 {/* Add margin to the ImageCarousel */}
                 <div className="mb-8">

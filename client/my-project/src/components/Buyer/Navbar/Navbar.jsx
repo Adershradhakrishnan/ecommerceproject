@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import dropdown from './images/drop.png';
 
 function Navbar({setKeyword,onCategorySelect}) {
     const [showDropdown,setShowDropdown] = useState(false);
@@ -27,10 +28,10 @@ function Navbar({setKeyword,onCategorySelect}) {
                     {/* Navigation Links */}
                     <ul className="flex items-center space-x-4">
                         <li>
-                            <Link to="/home" className="text-white hover:text-gray-300">Home</Link>
+                            <Link to="/" className="text-white hover:text-gray-300">Home</Link>
                         </li>
                         <li>
-                            <Link to="/contactus" className="text-white hover:text-gray-300">Contact Us</Link>
+                            <Link to="/" className="text-white hover:text-gray-300">Contact Us</Link>
                         </li>
                        
                         <li>
@@ -51,12 +52,36 @@ function Navbar({setKeyword,onCategorySelect}) {
                     </ul>
     
                     {/* Search Input */}
-                    <input
+                     {/* <input
                         type="search"
                         placeholder="Search for Products"
                         className="bg-white text-gray-800 px-3 py-2 rounded-lg focus:outline-none hidden md:block"
-                        style={{ maxWidth: "250px" }} 
-                    />
+                       style={{ maxWidth: "250px" }} 
+                     />  */}
+
+                       <div className="md:flex items-center mt-2 md:mt-0 relative">
+                        <div className="flex items-center">
+                        <img src={dropdown} alt="filter" className="w-6 h-6 mr-2 cursor-pointer" onClick={()=> setShowDropdown(!showDropdown)}/>
+                        <input
+                        type="search"
+                        placeholder="Search for products"
+                        className="bg-white text-gray-800 px-3 py-1 rounded-lg focus:outline-none w-full md:w-auto"
+                        onChange={handleSearch}
+                        />
+
+                        </div>
+                        {showDropdown && (
+                            <div className="absolute left-0 mt-2 bg-black text-white border border-gray-300 rounded-lg shadow-lg" style={{top:'100%',zIndex:10}}>
+
+                            <ul className="py-4">
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Bag')}>Bag</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Shoes')}>Shoes</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Watch')}>Watch</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Shirts')}>Shirts</li>
+                            </ul>
+                            </div>  
+                        )}
+                     </div>  
                 </div>
             </div>
         </nav>
