@@ -614,6 +614,7 @@ exports.removeFromWishlist = async function (req, res) {
 exports.getsearch = async function(req,res){
     const keyword = req.query.keyword;
     try{
+        let filter={};
         if (keyword) {
             filter={
                 $or:[
@@ -647,7 +648,7 @@ exports.getsearch = async function(req,res){
     }
 }
 
-exports.getfilter = async function(re,res){
+exports.getfilter = async function(req,res){
     const {category} = req.query;
     console.log(category);
 

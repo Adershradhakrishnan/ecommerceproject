@@ -21,5 +21,7 @@ router.post('/signin',Usercontroller.signin);
  router.post('/wishlist/add',Usercontroller.wishlist);
  router.get('/wishlist/item',Usercontroller.getwishlist);
  router.delete('/wishlist/remove',Usercontroller.removeFromWishlist);
+ router.get('/filterproducts',Usercontroller.getsearch);
+ router.get('/filter/categories',Usercontroller.getfilter);
  router.post('/signout',Usercontroller.signout);
 module.exports=router;
