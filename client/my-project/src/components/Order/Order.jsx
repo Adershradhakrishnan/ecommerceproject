@@ -35,33 +35,31 @@ function Order() {
         fetchOrderItems();
     }, [accessToken]); // Include accessToken in the dependency array
 
-   
     return (
         <div className="order-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             {orderItems.map((order, index) => (
-                <div key={index} className="order-card border border-blue-300 rounded-lg overflow-hidden shadow-xl transition-transform transform hover:scale-105 bg-white">
-                    <div className="p-6">
-                        <h3 className="text-2xl font-bold mb-4 text-blue-600">Order #{index + 1}</h3>
-                        <div className="mb-6">
-                            <p className="text-lg"><span className="font-semibold text-blue-500">User Name:</span> {order.userId.name}</p>
-                            <p className="text-lg"><span className="font-semibold text-blue-500">User Email:</span> {order.userId.email}</p>
+                <div key={index} className="order-card border border-gray-200 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 bg-white">
+                    <div className="p-4">
+                        <h3 className="text-xl font-bold mb-2 text-indigo-600">Order #{index + 1}</h3>
+                        <div className="mb-4">
+                            <p className="text-sm"><span className="font-semibold text-gray-700">User Name:</span> {order.userId.name}</p>
+                            <p className="text-sm"><span className="font-semibold text-gray-700">User Email:</span> {order.userId.email}</p>
                         </div>
-                        <div className="grid grid-cols-1 gap-6">
+                        <div className="grid grid-cols-1 gap-4">
                             {order.products.map((product, productIndex) => (
-                                <div key={productIndex} className="product-item border border-gray-200 rounded-lg overflow-hidden">
+                                <div key={productIndex} className="product-item border border-gray-200 rounded-lg overflow-hidden shadow-md">
                                     <img 
                                         src={`http://localhost:3100${product.imageFile}`} 
                                         alt={product.name} 
-                                        className="w-full h-64 object-cover" 
+                                        className="w-full h-48 object-cover" 
                                     />
-                                    <div className="p-4 bg-blue-50">
-                                        <p className="font-semibold text-blue-700">{product.name}</p>
-                                        <p className="text-gray-800">${product.price}</p>
+                                    <div className="p-3 bg-gray-50">
+                                        <p className="font-semibold text-gray-800">{product.name}</p>
+                                        <p className="text-gray-700">${product.price}</p>
                                     </div>
-                                    {/* Render total price at the bottom of the last product */}
                                     {productIndex === order.products.length - 1 && (
-                                        <div className="p-4 bg-blue-100">
-                                            <p className="font-semibold text-blue-800">Total Price: ${calculateTotalPrice(order.products).toFixed(2)}</p>
+                                        <div className="p-3 bg-indigo-100">
+                                            <p className="font-semibold text-indigo-800">Total Price: ${calculateTotalPrice(order.products).toFixed(2)}</p>
                                         </div>
                                     )}
                                 </div>
@@ -80,6 +78,3 @@ const calculateTotalPrice = (products) => {
 }
 
 export default Order;
-
-
-

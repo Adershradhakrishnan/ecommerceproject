@@ -6,7 +6,7 @@ import Navbar from "./Navbar/Navbar";
 import MyCarousel from './Carousel/Carousal';
 import axios from 'axios';
 import Footer from "./Footer/Footer";
-
+import ReactStars from "react-rating-stars-component";
 
 function Buyer() {
     const [products, setProducts] = useState([]);
@@ -28,32 +28,30 @@ function Buyer() {
             }
         };
 
+        const fetchFilteredProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:3100/filterproducts', {
+                    params: { keyword: keyword }
+                });
 
-    const fetchFilteredProducts= async()=>{
-        try{
-            const response= await axios.get('http://localhost:3100/filterproducts',{
-                params:{ keyword:keyword}
-            });
+                setProducts(response.data.data);
+                setLoading(false);
 
-            setProducts(response.data.data);
-            setLoading(false);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                setError('Error fetching products. Please try again.');
+                setLoading(false);
+            }
+        };
 
-        }catch (error){
-            console.error('Error fetching products:',error);
-            setError('Error fetching products.try again.');
-            setLoading(false);
-
+        if (keyword) {
+            setLoading(true);
+            setError(null);
+            fetchFilteredProducts();
+        } else {
+            fetchProducts();
         }
-    };
-
-    if (keyword){
-        setLoading(true);
-        setError(null);
-        fetchFilteredProducts();
-    }else{
-        fetchProducts();
-    }
-}, [keyword]);
+    }, [keyword]);
 
     const handleViewUser = (productId) => {
         if (productId !== undefined) {
@@ -63,7 +61,6 @@ function Buyer() {
             console.error("ID is undefined");
         }
     };
-    
 
     const handleFavoriteAction = async (productId) => {
         const token = localStorage.getItem('token');
@@ -93,30 +90,38 @@ function Buyer() {
         }
     };
 
-    const handleCategorySelect = async (category)=>{
+    const handleCategorySelect = async (category) => {
         setLoading(true);
         setError(null);
 
-        try{
+        try {
             const encodedCategory = encodeURIComponent(category);
-            const response= await axios.get('http://localhost:3100/filter/categories',{
-                params: {category:encodedCategory}
+            const response = await axios.get('http://localhost:3100/filter/categories', {
+                params: { category: encodedCategory }
             });
             setProducts(response.data.data);
             setLoading(false);
 
-        }catch(error){
-            console.error('Error fetching filtered products',error);
-            setError('Error fetching products.try again');
+        } catch (error) {
+            console.error('Error fetching filtered products', error);
+            setError('Error fetching products. Please try again.');
             setLoading(false);
-
         }
+    };
+
+    const calculateAverageRating = (reviews) => {
+        if (!reviews || reviews.length === 0) {
+            return 0;
+        }
+
+        const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return total / reviews.length;
     };
 
     return (
         <div className="min-h-screen">
             {/* Navbar */}
-            <Navbar  setKeyword={setKeyword} onCategorySelect={handleCategorySelect}/>
+            <Navbar setKeyword={setKeyword} onCategorySelect={handleCategorySelect} />
 
             {/* Image Carousel with Margin */}
             <div className="container mx-auto px-4 py-8">
@@ -157,6 +162,22 @@ function Buyer() {
                                             </div>
 
                                             <p className="text-gray-600 mb-2">Shipping Method: <span className="text-purple-600">{product.shippingMethod}</span></p>
+
+                                            {/* Average Rating Section */}
+                                            <div className="flex items-center mb-2">
+                                                <ReactStars
+                                                    count={5}
+                                                    value={calculateAverageRating(product.reviews)}
+                                                    edit={false}
+                                                    size={24}
+                                                    activeColor="#ffd700"
+                                                />
+                                                {/* <span className="text-gray-700 ml-2">
+                                                    {product.reviews && product.reviews.length > 0
+                                                        ? `(${product.reviews.length} ${product.reviews.length > 1 ? 'reviews' : 'review'})`
+                                                        : '(No reviews yet)'}
+                                                </span> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </Link>
@@ -168,17 +189,20 @@ function Buyer() {
                                     <FontAwesomeIcon icon={favorites.includes(product._id) ? fasHeart : farHeart} size="lg" style={{ color: favorites.includes(product._id) ? "red" : "currentColor" }} />
                                 </button>
 
-                                 
-                              <Link to={`/cartproduct/${product._id}`}> <button
-                                    className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-                                    onClick={() => handleViewUser(product._id)}
-                                >View Details</button></Link>
+                                <Link to={`/cartproduct/${product._id}`}>
+                                    <button
+                                        className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+                                        onClick={() => handleViewUser(product._id)}
+                                    >
+                                        View Details
+                                    </button>
+                                </Link>
                             </div>
                         ))}
                     </div>
                 )}
             </div>
-            
+
             <Footer />
         </div>
     );
