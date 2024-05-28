@@ -71,9 +71,9 @@ function Mywishlist() {
         fetchWishlistItems();
     }, [accessToken]); // Include accessToken in the dependency array
 
-    const calculateTotalPrice = (products) => {
-        return products.reduce((total, product) => total + product.price, 0);
-    };
+    // const calculateTotalPrice = (products) => {
+    //     return products.reduce((total, product) => total + product.price,0);
+    // };
 
     return (
         <div className="wishlist-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -90,14 +90,14 @@ function Mywishlist() {
                                     <img src={`http://localhost:3100${product.imageFile}`} alt={product.name} className="w-full h-64 object-contain" />
                                     <div className="p-4">
                                         <p className="font-semibold">{product.name}</p>
-                                        <p className="text-gray-700">${product.price}</p>
+                                        <p className="text-gray-700">Total Price :${product.price}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <div className="mt-4">
+                        {/* <div className="mt-4">
                             <p className="font-semibold">Total Price: ${calculateTotalPrice(wishlist.products)}</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             ))}

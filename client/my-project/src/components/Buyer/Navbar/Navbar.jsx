@@ -75,9 +75,9 @@ function Navbar({setKeyword,onCategorySelect}) {
 
                             <ul className="py-4">
                               <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Bag')}>Bag</li>
-                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Shoes')}>Shoes</li>
-                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Watch')}>Watch</li>
-                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Shirts')}>Shirts</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Menswear')}>Menswear</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Footwear')}>Footwear</li>
+                              <li className="px-4 py-2 cursor-pointer" onClick={()=> handleFilterClick('Electronics')}>Electronics</li>
                             </ul>
                             </div>  
                         )}

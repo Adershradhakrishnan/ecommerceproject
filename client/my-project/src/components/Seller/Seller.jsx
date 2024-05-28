@@ -3,7 +3,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from 'react-router-dom';
 
-
 const SellerPage = () => {
     const [productName, setProductName] = useState("");
     const [price, setPrice] = useState("");
@@ -12,7 +11,9 @@ const SellerPage = () => {
     const [shippingMethod, setShippingMethod] = useState("");
     const [sellerName, setSellerName] = useState("");
     const [contactEmail, setContactEmail] = useState("");
+    const [categories, setCategory] = useState(""); // State to hold category
     const navigate = useNavigate();
+    
     const handleImageChange = (e) => {
         const file = e.target.files[0];
 
@@ -47,6 +48,7 @@ const SellerPage = () => {
                 shippingMethod,
                 sellerName,
                 contactEmail,
+                categories, // Add category to the payload
                 userId
             });
 
@@ -74,6 +76,7 @@ const SellerPage = () => {
             setShippingMethod("");
             setSellerName("");
             setContactEmail("");
+            setCategory("");
 
         } catch (error) {
             console.error("Error adding item:", error);
@@ -85,76 +88,89 @@ const SellerPage = () => {
         }
     };
 
-  return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Seller Page</h1>
+    return (
+        <div className="bg-gray-100 min-h-screen">
+            <div className="max-w-7xl mx-auto px-4 py-8">
+                <h1 className="text-3xl font-semibold text-gray-800 mb-4">Seller Page</h1>
 
-        {/* Seller Information Form */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Seller Information</h2>
-          <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Product Name"
-                        className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
-                        value={productName}
-                        onChange={(e) => setProductName(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Price"
-                        className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Tags (comma-separated)"
-                        className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
-                        value={tags}
-                        onChange={(e) => setTags(e.target.value)}
-                    />
-                    <input
-                        type="file"
-                        onChange={handleImageChange}
-                        className="w-full py-2 mb-4"
-                    />
-                    <select
-                        value={shippingMethod}
-                        onChange={(e) => setShippingMethod(e.target.value)}
-                        className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
-                    >
-                        <option value="">Select Shipping Method</option>
-                        <option value="standard">Standard Shipping</option>
-                        <option value="express">Express Shipping</option>
-                        <option value="express">Fast card delivery</option>
-                    </select>
-                    <input
-                        type="text"
-                        placeholder="Seller Name"
-                        className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
-                        value={sellerName}
-                        onChange={(e) => setSellerName(e.target.value)}
-                    />
-                    <input
-                        type="email"
-                        placeholder="Contact Email"
-                        className="w-full px-4 py-2 border rounded-md mb-6 focus:outline-none focus:border-blue-500"
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                    />
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        Add Item
-                    </button>
-                </form>
+                {/* Seller Information Form */}
+                <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Seller Information</h2>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Product Name"
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                            value={productName}
+                            onChange={(e) => setProductName(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Price"
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Tags (comma-separated)"
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                            value={tags}
+                            onChange={(e) => setTags(e.target.value)}
+                        />
+                        <input
+                            type="file"
+                            onChange={handleImageChange}
+                            className="w-full py-2 mb-4"
+                        />
+                        <select
+                            value={shippingMethod}
+                            onChange={(e) => setShippingMethod(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="">Select Shipping Method</option>
+                            <option value="standard">Standard Shipping</option>
+                            <option value="express">Express Shipping</option>
+                            <option value="fast_card_delivery">Fast Card Delivery</option>
+                        </select>
+                        <select
+                            value={categories}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="">Select Category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="menswear">Menswear</option>
+                            <option value="footwear">Footwear</option>
+                            <option value="bag">Bag</option>
+                            <option value="sports_outdoors">Sports & Outdoors</option>
+                            <option value="toys_games">Toys & Games</option>
+                        </select>
+                        <input
+                            type="text"
+                            placeholder="Seller Name"
+                            className="w-full px-4 py-2 border rounded-md mb-4 focus:outline-none focus:border-blue-500"
+                            value={sellerName}
+                            onChange={(e) => setSellerName(e.target.value)}
+                        />
+                        <input
+                            type="email"
+                            placeholder="Contact Email"
+                            className="w-full px-4 py-2 border rounded-md mb-6 focus:outline-none focus:border-blue-500"
+                            value={contactEmail}
+                            onChange={(e) => setContactEmail(e.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Add Item
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default SellerPage;
