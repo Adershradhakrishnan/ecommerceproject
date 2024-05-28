@@ -125,7 +125,7 @@ exports.signin = async function (req, res) {
 }
 
 exports.seller = async function (req, res) {
-    const { productName, price, tags, imageBase64, shippingMethod, sellerName, contactEmail,userId } = req.body;
+    const { productName, price, tags, imageBase64, shippingMethod, sellerName, contactEmail,userId,categories} = req.body;
 
     console.log(req.body)
     const Image = imageBase64.split(';base64,').pop();
@@ -155,7 +155,8 @@ exports.seller = async function (req, res) {
         shippingMethod,
         sellerName,
         contactEmail,
-        userId
+        userId,
+        categories
     })
 
     if (new_product) {

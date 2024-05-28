@@ -9,6 +9,7 @@ const product =new mongoose.Schema({
     shippingMethod:"string",
     sellerName:"string",
     contactEmail:"string",
+    categories:"string",
 
     reviews:[{
         userName: String,
