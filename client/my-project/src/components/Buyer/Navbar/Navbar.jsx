@@ -30,9 +30,9 @@ function Navbar({setKeyword,onCategorySelect}) {
                         <li>
                             <Link to="/" className="text-white hover:text-gray-300">Home</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/" className="text-white hover:text-gray-300">Contact Us</Link>
-                        </li>
+                        </li> */}
                        
                         <li>
                             <Link to="/signin" className="text-white hover:text-gray-300">Sign In</Link>

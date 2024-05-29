@@ -152,6 +152,7 @@ function CartProduct() {
 
                         {isAddedToCart ? (
                             <button
+                             
                                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline mr-4"
                             >
                                 Go to Cart
