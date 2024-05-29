@@ -18,6 +18,7 @@ router.post('/signin',Usercontroller.signin);
  router.post('/order/add',Usercontroller.addorder);
  router.delete('/mycart/delete',Usercontroller.removefromcart);
  router.get('/order/item',Usercontroller.myorder);
+ router.delete('/cartproduct/delete',Usercontroller.deletecartProduct);
  router.post('/wishlist/add',Usercontroller.wishlist);
  router.get('/wishlist/item',Usercontroller.getwishlist);
  router.delete('/wishlist/remove',Usercontroller.removeFromWishlist);

@@ -518,6 +518,32 @@ exports.myorder = async function (req, res) {
     }
 }
 
+exports.deletecartProduct = async function (req, res) {
+    const { productIds } = req.body; // Destructure productId from request body
+
+    // Log the received productId for debugging
+    console.log(`Product ID to delete: ${productIds}`);
+
+
+    try {
+        // Finding the product in the cart by its productId
+        const products = await Cart.findOne({ productId: { $in: productIds } });
+
+
+
+        if (!products) {
+            return res.status(404).json({ message: "Product not found in the cart" });
+        } else {
+            // Deleting the product from the cart
+            await Cart.deleteOne({ productId: { $in: productIds } });
+            return res.status(200).json({ message: "Product deleted successfully from the cart" });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+    }
+}
+
 exports.wishlist = async function (req, res) {
     const { userId, productId } = req.body;
 
