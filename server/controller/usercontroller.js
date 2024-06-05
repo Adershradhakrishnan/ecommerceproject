@@ -455,18 +455,22 @@ exports.mycart = async function (req, res) {
 
 exports.addorder = async function (req, res) {
     try {
-        const { userId, productIds } = req.body;
+        const { userId, productIds,quantities} = req.body;
 
-        // Create new order
-        await order.create({ userId, productId: productIds });
+        const newOrder = new order({
+            userId,
+            productId: productIds,
+            quantities // ensure this is an array of numbers
+        });
 
-        res.status(200).json({ message: 'Order placed successfully' });
+        await newOrder.save();
+
+        res.status(200).json({ message: 'Order placed successfully' , data:newOrder });
     } catch (error) {
         console.error('Error placing order:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
-
 
 exports.removefromcart = async function (req, res) {
     const { userId, productIds } = req.body;
@@ -482,6 +486,7 @@ exports.removefromcart = async function (req, res) {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 
 exports.myorder = async function (req, res) {
@@ -505,7 +510,8 @@ exports.myorder = async function (req, res) {
                 // Construct a populated order item object
                 const populatedOrderItem = {
                     userId: user,
-                    products: product,
+                    products: product, // Corrected variable name
+                    quantities: orderItem.quantities, // Include quantities from the order item
                 };
                 populatedOrderItems.push(populatedOrderItem);
             }
