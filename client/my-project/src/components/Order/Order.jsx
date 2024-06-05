@@ -35,6 +35,20 @@ function Order() {
         fetchOrderItems();
     }, [accessToken]); // Include accessToken in the dependency array
 
+    // Function to calculate total price of all products
+    const calculateTotalPrice = (products, quantities) => {
+        let totalPrice = 0;
+
+        products.forEach((product, index) => {
+            const quantity = quantities[index];
+            if (quantity && !isNaN(quantity)) { // Check if quantity exists and is a valid number
+                totalPrice += product.price * quantity;
+            }
+        });
+
+        return totalPrice;
+    }
+
     return (
         <div className="order-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             {orderItems.map((order, index) => (
@@ -51,30 +65,28 @@ function Order() {
                                     <img 
                                         src={`http://localhost:3100${product.imageFile}`} 
                                         alt={product.name} 
-                                        className="w-full h-48 object-cover" 
+                                        className="w-full h-48 object-contain" 
                                     />
                                     <div className="p-3 bg-gray-50">
                                         <p className="font-semibold text-gray-800">{product.name}</p>
                                         <p className="text-gray-700">${product.price}</p>
-                                    </div>
-                                    {productIndex === order.products.length - 1 && (
-                                        <div className="p-3 bg-indigo-100">
-                                            <p className="font-semibold text-indigo-800">Total Price: ${calculateTotalPrice(order.products).toFixed(2)}</p>
+                                        <div className="text-blue-700">
+                                            Quantity: {order.quantities && order.quantities[productIndex] ? order.quantities[productIndex] : 0}
                                         </div>
-                                    )}
+                                    </div>
+                                    
                                 </div>
                             ))}
+                        </div>
+                         
+                        <div className="p-4 bg-gray-200">
+                            <p className="font-semibold">Total Price: RS.{calculateTotalPrice(order.products, order.quantities).toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
             ))}
         </div>
     );
-}
-
-// Function to calculate total price of all products
-const calculateTotalPrice = (products) => {
-    return products.reduce((total, product) => total + parseFloat(product.price), 0);
 }
 
 export default Order;

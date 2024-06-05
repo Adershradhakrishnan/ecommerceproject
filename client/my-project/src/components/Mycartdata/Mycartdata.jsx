@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const fetchCartItems = async () => {
   try {
@@ -31,19 +33,35 @@ const fetchCartItems = async () => {
 function MyCartData() {
   const [cartItems, setCartItems] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [quantities, setQuantities] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     fetchCartItems()
-      .then(data => setCartItems(data))
-      .catch(error => console.error(error));
-  }, []);
+    .then(data => {
+      setCartItems(data);
+      const initialQuantities = {};
+      data.forEach(item => {
+        initialQuantities[item.productId._id] = item.quantity || 1;
+      });
+      setQuantities(initialQuantities);
+    })
+    .catch(error => console.error(error));
+}, []);
 
   const handleCheckboxChange = (event, productId) => {
     if (event.target.checked) {
       setSelectedProducts([...selectedProducts, productId]);
     } else {
       setSelectedProducts(selectedProducts.filter(id => id !== productId));
+    }
+  };
+
+
+  const handleQuantityChange = (productId, delta) => {
+    const newQuantity = (quantities[productId] || 1) + delta;
+    if (newQuantity > 0) {
+      setQuantities({ ...quantities, [productId]: newQuantity });
     }
   };
 
@@ -61,9 +79,22 @@ function MyCartData() {
       const decodedToken = JSON.parse(decodedPayload);
       const userId = decodedToken.user_id;
 
+      const selectedQuantities = selectedProducts.map(productId => quantities[productId]);
+
+      if (selectedProducts.length === 0 || selectedQuantities.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'No Products Selected',
+          text: 'Please select products to purchase.',
+        });
+        return;
+      }
+
       await axios.post('http://localhost:3100/order/add', {
         userId: userId,
-        productIds: selectedProducts
+        productIds: selectedProducts,
+        quantities: selectedQuantities
+        
       });
 
       await axios.delete('http://localhost:3100/mycart/delete', {
@@ -112,11 +143,11 @@ function MyCartData() {
     let totalPrice = 0;
     for (const cartItem of cartItems) {
       if (selectedProducts.includes(cartItem.productId._id)) {
-        totalPrice += parseFloat(cartItem.productId.price);
+        totalPrice += parseFloat(cartItem.productId.price) * (quantities[cartItem.productId._id] || 1);
       }
     }
     setTotalPrice(totalPrice);
-  }, [selectedProducts, cartItems]);
+  }, [selectedProducts, cartItems, quantities]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -134,6 +165,23 @@ function MyCartData() {
               <p className="text-lg text-gray-800 mt-2">
                 <strong>Price:</strong> <span className="text-green-600">Rs.{parseFloat(cartItem.productId.price).toFixed(2)}</span>
               </p>
+              <p className="text-lg text-gray-800 my-2">
+                <strong>Quantity:</strong>
+                <button 
+                  className="ml-2 p-1 bg-gray-200 rounded"
+                  onClick={() => handleQuantityChange(cartItem.productId._id, -1)}
+                >
+                  <FontAwesomeIcon icon={faMinus} />
+                </button>
+                <span className="mx-2">{quantities[cartItem.productId._id]}</span>
+                <button 
+                  className="p-1 bg-gray-200 rounded"
+                  onClick={() => handleQuantityChange(cartItem.productId._id, 1)}
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+              </p>
+
               <div className="flex items-center mt-2">
                 <input
                   type="checkbox"
