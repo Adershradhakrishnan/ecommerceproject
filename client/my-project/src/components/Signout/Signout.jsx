@@ -1,14 +1,21 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 
 const Signout = () => {
   const handleSignout = () => {
     // Your signout logic goes here
     // For example, clear localStorage, reset state, etc.
     localStorage.removeItem('token'); // Assuming you're using a token for authentication
-    // Redirect the user to the homepage or login page
-    window.location.href = '/';
-    // Show alert message
-    alert('You have been signed out.');
+
+    // Show SweetAlert2 alert message
+    Swal.fire({
+      icon: 'success',
+      title: 'Signed Out',
+      text: 'You have been signed out successfully.',
+    }).then(() => {
+      // Redirect the user to the homepage or login page
+      window.location.href = '/';
+    });
   };
 
   return (
