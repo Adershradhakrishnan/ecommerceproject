@@ -6,6 +6,7 @@ const Signout = () => {
     // Your signout logic goes here
     // For example, clear localStorage, reset state, etc.
     localStorage.removeItem('token'); // Assuming you're using a token for authentication
+    localStorage.removeItem('email');
 
     // Show SweetAlert2 alert message
     Swal.fire({
