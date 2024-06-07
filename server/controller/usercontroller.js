@@ -98,7 +98,8 @@ exports.signin = async function (req, res) {
                         statusCode: 200,
                         data: {
                             token: access_token,
-                            role:user.role
+                            role:user.role,
+                            email:email
 
                         },
                         message: "Login Successful",
