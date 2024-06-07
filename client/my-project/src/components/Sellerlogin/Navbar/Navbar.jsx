@@ -43,7 +43,10 @@ function Navbar({ setKeyword, onCategorySelect }) {
                         <li>
                             <Link to="/signout" className="text-white hover:text-gray-300">Sign Out</Link>
                         </li>
-                       
+                        <li>
+                            <Link to="/getproducts" className="text-white hover:text-gray-300">Seller</Link>
+                        </li>
+                        
                     </ul>
 
                     {/* Search Input */}

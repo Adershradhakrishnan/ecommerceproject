@@ -18,8 +18,9 @@ function Signin() {
         });
 
         if (response.data.success) {
-            const { token, role } = response.data.data;
+            const { token, role ,email} = response.data.data;
             localStorage.setItem('token', token);
+            localStorage.setItem('email',email);
 
             Swal.fire({
                 icon: 'success',
@@ -29,7 +30,7 @@ function Signin() {
 
             // Redirect based on role after successful sign-in
             if (role === 'seller') {
-                navigate('/getproducts');
+                navigate('/sellerlogin');
             } else if (role === 'buyer') {
                 navigate('/');
             }
